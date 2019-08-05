@@ -1,0 +1,14 @@
+{
+  "parserOptions": {
+    "parser": "babel-eslint",
+    "ecmaVersion": 2017,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "rules": {
+    "no-unused-vars": ["error", { "args": "after-used" }]
+  }
+}
