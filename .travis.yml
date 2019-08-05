@@ -1,0 +1,22 @@
+sudo: required
+services:
+  -docker
+before_install:
+  - docker build -t blainarm387/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true blainarm387/react-test npm test
+
+after_success:
+  - docker build -t blainarm387/multi-client ./client
+  - docker build -t blainarm387/multi-nginx ./nginx
+  - docker build -t blainarm387/multi-server ./server
+  - docker build -t blainarm387/multi-worker ./worker
+
+  # Log in to Docker cli
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take the images and push to Docker Hub
+  - docker push blainarm387/multi-client
+  - docker push blainarm387/multi-nginx
+  - docker push blainarm387/multi-server
+  - docker push blainarm387/multi-worker
